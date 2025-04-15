@@ -1,21 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
-import * as actions from "@/actions"
+import * as actions from "@/actions";
 import Link from "next/link";
 import React from "react";
+import { notFound } from "next/navigation";
 
 async function page({ params }: { params: Promise<{ id: string }> }) {
   const id = parseInt((await params).id);
+  await new Promise((r) => setTimeout(r, 2000));
   const snippet = await prisma.snippet.findUnique({
     where: {
       id,
     },
   });
   if (!snippet) {
-    return <h1>Snippet not found</h1>;
+    return notFound();
   }
 
-  const deleteSnippetAction = actions.deleteSnippet.bind(null, snippet.id)
+  const deleteSnippetAction = actions.deleteSnippet.bind(null, snippet.id);
 
   return (
     <div>
@@ -26,7 +28,9 @@ async function page({ params }: { params: Promise<{ id: string }> }) {
             <Button className="mx-2">Edit</Button>
           </Link>
           <form action={deleteSnippetAction}>
-            <Button className="mx-2" type="submit">Delete</Button>
+            <Button className="mx-2" type="submit">
+              Delete
+            </Button>
           </form>
           <Link href={"/"}>
             <Button className="mx-2">Go Home</Button>
