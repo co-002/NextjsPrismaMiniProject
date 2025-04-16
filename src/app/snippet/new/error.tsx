@@ -1,9 +1,8 @@
-"use client"
+"use client";
 import React from "react";
 
 function error({
   error,
-  reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;

@@ -47,3 +47,12 @@ async function page({ params }: { params: Promise<{ id: string }> }) {
 }
 
 export default page;
+
+export async function generateStaticParams() {
+  const snippets = await prisma.snippet.findMany();
+  return snippets.map((snippet) => {
+    return {
+      id: snippet.id.toString(),
+    };
+  });
+}

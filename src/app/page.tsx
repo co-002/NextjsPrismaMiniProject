@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
-import Image from "next/image";
 import Link from "next/link";
+
 
 export default async function Home() {
   const snippets = await prisma.snippet.findMany();
@@ -17,10 +17,17 @@ export default async function Home() {
       </div>
       <div className="mt-5">
         {snippets.map((snippet) => {
-          return <div key={snippet.id} className="my-3 flex justify-between  p-3 align-center rounded-[15px] bg-gray-300">
-            <p>{snippet.title}</p>
-            <Link href={`/snippet/${snippet.id}`}><Button>View</Button></Link>
-          </div>;
+          return (
+            <div
+              key={snippet.id}
+              className="my-3 flex justify-between  p-3 align-center rounded-[15px] bg-gray-300"
+            >
+              <p>{snippet.title}</p>
+              <Link href={`/snippet/${snippet.id}`}>
+                <Button>View</Button>
+              </Link>
+            </div>
+          );
         })}
       </div>
     </div>

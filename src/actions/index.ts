@@ -1,5 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export const saveSnippet = async (id: number, code: string) => {
@@ -11,6 +12,7 @@ export const saveSnippet = async (id: number, code: string) => {
       code,
     },
   });
+  revalidatePath(`/snippet/${id}`)
   redirect(`/snippet/${id}`);
 };
 
@@ -47,8 +49,15 @@ export async function createNewSnippet(
         code,
       },
     });
-  } catch (error: any) {
-    return { message: error.message };
+  } catch (error: unknown) {
+    if(error instanceof Error){
+      return { message: error.message };
+    }
+    else{
+      return {
+        message: "Internal server error"
+      }
+    }
   }
   redirect("/");
 }

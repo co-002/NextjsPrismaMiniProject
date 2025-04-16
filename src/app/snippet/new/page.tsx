@@ -3,16 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import { createNewSnippet } from "@/actions";
 import React, { useActionState } from "react";
 
-function createSnippet() {
+function CreateSnippet() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [serverActionData, action] = useActionState(createNewSnippet, {
     message: "",
   });
-  console.log(serverActionData);
 
   return (
     <div>
@@ -47,4 +45,4 @@ function createSnippet() {
   );
 }
 
-export default createSnippet;
+export default CreateSnippet;
